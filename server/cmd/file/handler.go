@@ -17,7 +17,7 @@ type FileServiceImpl struct {
 }
 
 type RedisManger interface {
-	NewUpload(ctx context.Context, userId int64, filed string, value int64)
+	NewUpload(ctx context.Context, userId int64, filed string, value int64) error
 }
 
 // UploadFile implements the FileServiceImpl interface.
