@@ -2,28 +2,27 @@ package main
 
 import (
 	"context"
+	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/limit"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/pkg/utils"
 	"github.com/cloudwego/kitex/server"
 	"github.com/kitex-contrib/obs-opentelemetry/provider"
 	"github.com/kitex-contrib/obs-opentelemetry/tracing"
-	"log"
 	"net"
 	"strconv"
 	"summer/server/cmd/analyze/config"
-	"summer/server/cmd/task/initialize"
-	"summer/server/cmd/task/pkg"
+	"summer/server/cmd/analyze/initialize"
+	"summer/server/cmd/analyze/pkg"
 	"summer/server/shared/consts"
-	task "summer/server/shared/kitex_gen/task/taskservice"
+	analyze "summer/server/shared/kitex_gen/analyze/analyzeservice"
 )
 
 func main() {
 	initialize.InitLogger()
 	initialize.InitConfig()
 	IP, Port := initialize.InitFlag()
-	rc := initialize.InitRedis()
-	ac := initialize.InitAnalyze()
+	client := initialize.InitMinio()
 
 	r, info := initialize.InitRegistry(Port)
 	p := provider.NewOpenTelemetryProvider(
@@ -33,12 +32,11 @@ func main() {
 	)
 	defer p.Shutdown(context.Background())
 
-	impl := &TaskServiceImpl{
-		RedisManger:   pkg.NewRedisManager(rc),
-		AnalyzeManger: pkg.NewAnalyzeManger(ac),
+	impl := &AnalyzeServiceImpl{
+		MinioManger: pkg.NewMinioManger(client),
 	}
 
-	svr := task.NewServer(impl,
+	svr := analyze.NewServer(impl,
 		server.WithServiceAddr(utils.NewNetAddr(consts.TCP, net.JoinHostPort(IP, strconv.Itoa(Port)))),
 		server.WithRegistry(r),
 		server.WithRegistryInfo(info),
@@ -50,6 +48,6 @@ func main() {
 	err := svr.Run()
 
 	if err != nil {
-		log.Println(err.Error())
+		klog.Fatal(err)
 	}
 }

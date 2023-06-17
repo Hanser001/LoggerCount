@@ -22,6 +22,14 @@ struct loginResponse {
     3: string token,                        // User authentication token
 }
 
+struct uploadFileRequest{}
+
+struct uploadFileResponse{}
+
+struct downloadFileRequest{}
+
+struct downloadFileResponse{}
+
 service ApiService {
     registerResponse Register(1:registerRequest req)(api.post="/api/user/register/")
     loginResponse Login(1:loginRequest req)(api.post="/api/user/login/")

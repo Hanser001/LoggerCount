@@ -80,3 +80,13 @@ func possessFile(line string, file *os.File, wg *sync.WaitGroup) {
 	defer wg.Done()
 	fmt.Fprintln(file, line)
 }
+
+func NewFile(path string, data []byte) error {
+	file, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	_, err = file.Write(data)
+	return err
+}

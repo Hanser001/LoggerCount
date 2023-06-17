@@ -6,11 +6,24 @@ import (
 )
 
 // TaskServiceImpl implements the last service interface defined in the IDL.
-type TaskServiceImpl struct{}
+type TaskServiceImpl struct {
+	RedisManger
+	AnalyzeManger
+}
+
+type RedisManger interface {
+	SetTaskRecord(ctx context.Context, userId int, taskId int) error
+	UpdateTaskStatus(ctx context.Context, userId int, taskId int) error
+}
+
+type AnalyzeManger interface {
+	Analyze()
+}
 
 // NewTask_ implements the TaskServiceImpl interface.
 func (s *TaskServiceImpl) NewTask_(ctx context.Context, req *task.NewTaskRequest_) (resp *task.NewTaskResponse_, err error) {
-	// TODO: Your code here...
+	resp = new(task.NewTaskResponse_)
+
 	return
 }
 

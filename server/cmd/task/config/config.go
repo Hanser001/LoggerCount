@@ -17,8 +17,13 @@ type OtelConfig struct {
 }
 
 type ServerConfig struct {
-	Name      string      `mapstructure:"name" json:"name"`
-	Host      string      `mapstructure:"host" json:"host"`
-	RedisInfo RedisConfig `mapstructure:"redis" json:"redis"`
-	OtelInfo  OtelConfig  `mapstructure:"otel" json:"otel"`
+	Name           string           `mapstructure:"name" json:"name"`
+	Host           string           `mapstructure:"host" json:"host"`
+	RedisInfo      RedisConfig      `mapstructure:"redis" json:"redis"`
+	OtelInfo       OtelConfig       `mapstructure:"otel" json:"otel"`
+	AnalyzeStvInfo AnalyzeSrvConfig `mapstructure:"analyze_srv" json:"analyze_srv"`
+}
+
+type AnalyzeSrvConfig struct {
+	Name string `mapstructure:"name" json:"name"`
 }
