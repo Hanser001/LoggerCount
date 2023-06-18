@@ -22,8 +22,13 @@ type ServerConfig struct {
 	RedisInfo      RedisConfig      `mapstructure:"redis" json:"redis"`
 	OtelInfo       OtelConfig       `mapstructure:"otel" json:"otel"`
 	AnalyzeStvInfo AnalyzeSrvConfig `mapstructure:"analyze_srv" json:"analyze_srv"`
+	FileSrvInfo    FileSrvConfig    `mapstructure:"file_srv" json:"file_srv"`
 }
 
 type AnalyzeSrvConfig struct {
+	Name string `mapstructure:"name" json:"name"`
+}
+
+type FileSrvConfig struct {
 	Name string `mapstructure:"name" json:"name"`
 }

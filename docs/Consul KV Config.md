@@ -6,18 +6,18 @@ summer/user_srv
 {
   "name": "user_srv",
   "mysql": {
-    "host": "39.101.68.42",
+    "host": "your_host",
     "port": 3306,
     "db": "summer",
     "user": "root",
-    "password": "Wjj20040311!",
+    "password": "your_password",
     "salt": "nanacho"
   },
   "otel": {
     "endpoint": ":4317"
   },
    "jwt": {
-     "key": "nanacho"
+     "key": "your_key"
   }
 }
 ```
@@ -26,17 +26,27 @@ summer/file_srv
 
 ```json
 {
-  "name": "usfile_srv",
-  "mysql": {
-    "host": "39.101.68.42",
-    "port": 3306,
-    "db": "summer",
+  "name": "file_srv",
+  "redis": {
+    "host": "your_host",
+    "port": 6379,
     "user": "root",
-    "password": "Wjj20040311!",
-    "salt": "nanacho"
   },
   "otel": {
     "endpoint": ":4317"
+  },
+  "minio": {
+     "endpoint": "127.0.0.1:9000",
+     "access_key_id": "your_key",
+     "secret_key": "your_key",
+     "bucket": "summer"
+  },
+  "rabbitmq": {
+    "host": "127.0.0.1",
+    "port": 5672,
+    "user": "YOUR_USER",
+    "password": "YOUR_PASSWORD",
+    "exchange": "summer"
   },
 }
 ```
@@ -44,18 +54,66 @@ summer/file_srv
 summer/task_srv
 
 ```json
-
+{
+  "name": "task_srv",
+  "redis": {
+    "host": "your_host",
+    "port": 6379,
+    "user": "root",
+  },
+  "otel": {
+    "endpoint": ":4317"
+  },
+  "analyze_srv": {
+     "name": "analyze_srv"
+  }
+}
 ```
 
 summer/analyze_srv
 
 ```json
-
+{
+  "name": "analyze_srv",
+  "otel": {
+    "endpoint": ":4317"
+  },
+  "minio": {
+     "endpoint": "127.0.0.1:9000",
+     "access_key_id": "your_key",
+     "secret_key": "your_key",
+     "bucket": "summer"
+  },
+  "user_srv": {
+     "name": "user_srv"
+  }
+}
 ```
 
 summer/api_srv
 
 ```json
-
+{
+    "name": "api",
+    "port": 8080,
+    "jwt": {
+        "key": "your key",
+    },
+    "otel": {
+        "endpoint": ":4317"
+    },
+    "user_srv": {
+        "name": "user_srv"
+    },
+      "file_srv": {
+        "name": "user_srv"
+    },
+    "task_srv": {
+        "name": "user_srv"
+    },
+    "analyze_srv": {
+        "name": "user_srv"
+    },
+}
 ```
 

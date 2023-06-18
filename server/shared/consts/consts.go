@@ -48,4 +48,8 @@ const (
 
 	TaskSuccess = 0
 	TaskWorking = 1
+
+	CorsAddress = "http://localhost:3000"
+
+	UserRole = "user"
 )
